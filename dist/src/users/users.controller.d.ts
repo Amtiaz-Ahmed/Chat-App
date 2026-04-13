@@ -3,18 +3,31 @@ import { UsersService } from './users.service';
 export declare class UsersController {
     private readonly usersService;
     constructor(usersService: UsersService);
+    list(req: {
+        user: {
+            userId: number;
+            email: string;
+        };
+    }): Promise<{
+        id: number;
+        name: string;
+        email: string;
+        profilePicture: string | null;
+        status: string;
+        createdAt: Date;
+    }[]>;
     profile(req: {
         user: {
             userId: number;
             email: string;
         };
     }): Promise<{
-        email: string;
+        id: number;
         name: string;
+        email: string;
         profilePicture: string | null;
         status: string;
         createdAt: Date;
-        id: number;
     }>;
     updateProfile(req: {
         user: {
@@ -22,11 +35,11 @@ export declare class UsersController {
             email: string;
         };
     }, dto: UpdateProfileDto): Promise<{
-        email: string;
+        id: number;
         name: string;
+        email: string;
         profilePicture: string | null;
         status: string;
         createdAt: Date;
-        id: number;
     }>;
 }

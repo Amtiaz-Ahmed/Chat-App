@@ -10,8 +10,8 @@ export declare class AuthService {
         password: string;
     }): Promise<{
         user: {
-            email: string;
             name: string;
+            email: string;
             profilePicture: string | null;
             status: string;
             createdAt: Date;
@@ -24,8 +24,8 @@ export declare class AuthService {
         password: string;
     }): Promise<{
         user: {
-            email: string;
             name: string;
+            email: string;
             profilePicture: string | null;
             status: string;
             createdAt: Date;

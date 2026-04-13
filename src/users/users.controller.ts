@@ -8,6 +8,12 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @UseGuards(JwtAuthGuard)
+  @Get()
+  list(@Req() req: { user: { userId: number; email: string } }) {
+    return this.usersService.listPublicUsers(req.user.userId);
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Get('profile')
   async profile(@Req() req: { user: { userId: number; email: string } }) {
     const user = await this.usersService.findById(req.user.userId);

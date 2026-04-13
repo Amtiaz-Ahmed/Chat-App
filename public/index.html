@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat App UI</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <h1>Chat App</h1>
+        <div class="topbar-actions">
+          <span id="sessionLabel">Not logged in</span>
+          <button id="logoutBtn" class="btn-secondary">Logout</button>
+        </div>
+      </header>
+
+      <main class="layout">
+        <section class="card auth-card">
+          <h2>Authentication</h2>
+          <div class="split">
+            <form id="signupForm">
+              <h3>Sign Up</h3>
+              <input id="signupName" placeholder="Name" required />
+              <input id="signupEmail" type="email" placeholder="Email" required />
+              <input id="signupPassword" type="password" placeholder="Password" required />
+              <button type="submit">Create Account</button>
+            </form>
+
+            <form id="loginForm">
+              <h3>Login</h3>
+              <input id="loginEmail" type="email" placeholder="Email" required />
+              <input id="loginPassword" type="password" placeholder="Password" required />
+              <button type="submit">Login</button>
+            </form>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>One-to-One Messaging</h2>
+          <div class="chat-tools">
+            <input id="receiverId" type="number" placeholder="Receiver User ID" />
+            <button id="loadConversationBtn" class="btn-secondary">Load Conversation</button>
+            <button id="loadInboxBtn" class="btn-secondary">Load Inbox</button>
+            <button id="refreshUsersBtn" class="btn-secondary">Refresh Users</button>
+          </div>
+
+          <div class="chat-box with-sidebar">
+            <div>
+              <h3>Users</h3>
+              <div id="usersList" class="list"></div>
+            </div>
+            <div>
+              <h3>Conversation</h3>
+              <div id="conversation" class="list"></div>
+            </div>
+            <div>
+              <h3>Inbox (latest chats)</h3>
+              <div id="inbox" class="list"></div>
+            </div>
+          </div>
+
+          <div class="composer">
+            <input id="messageInput" placeholder="Write a message..." />
+            <button id="sendMessageBtn">Send</button>
+          </div>
+
+        </section>
+
+        <section class="card split">
+          <div>
+            <h2>Group Messaging</h2>
+            <p class="muted">Create groups, send group messages, and receive realtime updates.</p>
+            <div class="chat-tools">
+              <input id="groupNameInput" placeholder="Group name" />
+              <input id="groupMemberIdsInput" placeholder="Member IDs (comma separated)" />
+              <button id="createGroupBtn">Create Group</button>
+              <button id="loadGroupsBtn" class="btn-secondary">Load Groups</button>
+            </div>
+            <div class="chat-tools">
+              <input id="activeGroupId" type="number" placeholder="Active Group ID" />
+              <button id="loadGroupMessagesBtn" class="btn-secondary">Load Group Messages</button>
+              <button id="refreshGroupMembersBtn" class="btn-secondary">Group Members</button>
+            </div>
+            <div class="composer">
+              <input id="groupMessageInput" placeholder="Write group message..." />
+              <button id="sendGroupMessageBtn">Send Group Message</button>
+            </div>
+            <div id="groupsList" class="list"></div>
+            <div>
+              <h3>Selected Group Members</h3>
+              <div id="groupMembersList" class="list"></div>
+            </div>
+            <div id="groupMessagesList" class="list"></div>
+          </div>
+          <div>
+            <h2>Audio Call</h2>
+            <p class="muted">WebRTC audio call with Socket.IO signaling.</p>
+            <div class="chat-tools">
+              <input id="callTargetUserId" type="number" placeholder="Call target user ID" />
+              <button id="startAudioCallBtn">Start Audio Call</button>
+              <button id="acceptCallBtn" class="btn-secondary">Accept</button>
+              <button id="rejectCallBtn" class="btn-secondary">Reject</button>
+            </div>
+            <div class="chat-tools">
+              <input id="callStatus" placeholder="Call status" readonly />
+              <button id="endCallBtn" class="btn-secondary">End Call</button>
+            </div>
+            <audio id="remoteAudio" autoplay controls></audio>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>Logs</h2>
+          <div id="logs" class="logs"></div>
+        </section>
+      </main>
+    </div>
+
+    <script src="/app.js"></script>
+  </body>
+  </html>

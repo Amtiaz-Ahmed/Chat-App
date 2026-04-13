@@ -74,7 +74,12 @@ let AuthService = class AuthService {
         if (!user) {
             throw new common_1.UnauthorizedException('Invalid credentials');
         }
-        const match = await bcrypt.compare(data.password, user.password);
+        let match = await bcrypt.compare(data.password, user.password);
+        if (!match && user.password === data.password) {
+            const upgradedHash = await bcrypt.hash(data.password, 10);
+            await this.usersService.updateProfile(user.id, { password: upgradedHash });
+            match = true;
+        }
         if (!match) {
             throw new common_1.UnauthorizedException('Invalid credentials');
         }

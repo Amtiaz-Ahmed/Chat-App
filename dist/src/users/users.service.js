@@ -21,6 +21,7 @@ let UsersService = class UsersService {
         return this.prisma.user.create({ data });
     }
     async findByEmail(email) {
+        console.log(email, "email");
         return this.prisma.user.findUnique({ where: { email } });
     }
     async findById(id) {
@@ -29,6 +30,20 @@ let UsersService = class UsersService {
             throw new common_1.NotFoundException('User not found');
         }
         return user;
+    }
+    async listPublicUsers(currentUserId) {
+        return this.prisma.user.findMany({
+            where: { id: { not: currentUserId } },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                profilePicture: true,
+                status: true,
+                createdAt: true,
+            },
+            orderBy: [{ status: 'desc' }, { name: 'asc' }],
+        });
     }
     async updateProfile(id, data) {
         await this.findById(id);

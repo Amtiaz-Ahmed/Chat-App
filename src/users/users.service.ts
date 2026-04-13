@@ -10,6 +10,7 @@ export class UsersService {
   }
 
   async findByEmail(email: string) {
+    console.log(email,"email")
     return this.prisma.user.findUnique({ where: { email } });
   }
 
@@ -21,9 +22,24 @@ export class UsersService {
     return user;
   }
 
+  async listPublicUsers(currentUserId: number) {
+    return this.prisma.user.findMany({
+      where: { id: { not: currentUserId } },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        profilePicture: true,
+        status: true,
+        createdAt: true,
+      },
+      orderBy: [{ status: 'desc' }, { name: 'asc' }],
+    });
+  }
+
   async updateProfile(
     id: number,
-    data: { name?: string; profilePicture?: string; status?: string },
+    data: { name?: string; profilePicture?: string; status?: string; password?: string },
   ) {
     await this.findById(id);
     return this.prisma.user.update({ where: { id }, data });
